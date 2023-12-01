@@ -18,6 +18,7 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 logger = logging.getLogger(__name__)
 
 REPO_URL = "https://github.com/RoboRich00A16/volta-il-dado-bot"
+NEWS_URL = "https://t.me/volta_il_dado_bot_updates"
 
 
 async def play_dice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -47,9 +48,10 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 	await update.message.reply_text(
 		"\n".join(
 			[
-				"/help - Mostra questo messaggio",
-				"/start - Riavvia il bot",
-				"/repo - Visita la repository con il codice sorgente",
+				"/help - 🆘 Mostra questo messaggio",
+				"/start - 🛫 Riavvia il bot",
+				"/news - 📰 Vai al canale degli aggiornamenti sullo sviluppo"
+				"/repo - 🗃 Visita la repository con il codice sorgente",
 				"/hoops - 🏀"
 			]
 		)
@@ -60,15 +62,24 @@ async def hoops_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
 	await update.message.reply_dice(emoji=DiceEmoji.BASKETBALL)
 
 
+async def news_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+	await update.message.reply_text(
+		"Vai al canale degli aggiornamenti sullo sviluppo del bot",
+		reply_markup=InlineKeyboardMarkup(
+			[
+				[InlineKeyboardButton("Vai al canale", url=NEWS_URL)]
+			]
+		)
+	)
+
+
 async def repo_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 	await update.message.reply_text(
 		text="Questo gioco è open source e puoi trovare il codice sorgente qui:",
 		reply_markup=InlineKeyboardMarkup(
-			[[
-				InlineKeyboardButton(
-					"Repository su GitHub",
-					url=REPO_URL)
-			]]
+			[
+				[InlineKeyboardButton("Repository su GitHub", url=REPO_URL)]
+			]
 		)
 	)
 
@@ -89,6 +100,7 @@ def main() -> None:
 	# on different commands - answer in Telegram
 	application.add_handler(CommandHandler("start", start))
 	application.add_handler(CommandHandler("help", help_command))
+	application.add_handler(CommandHandler("news", news_command))
 	application.add_handler(CommandHandler("repo", repo_command))
 	application.add_handler(CommandHandler("hoops", hoops_command))
 
