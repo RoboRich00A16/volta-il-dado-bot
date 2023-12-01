@@ -56,6 +56,10 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 	)
 
 
+async def hoops_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+	await update.message.reply_dice(emoji=DiceEmoji.BASKETBALL)
+
+
 async def repo_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 	await update.message.reply_text(
 		text="Questo gioco è open source e puoi trovare il codice sorgente qui:",
@@ -80,12 +84,13 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 def main() -> None:
 	"""Start the bot."""
 	# Create the Application and pass it your bot's token.
-	application = Application.builder().token("TOKEN").build()
+	application = Application.builder().token("1937213116:AAFRzNy_Rj4BianiJvVN7Gjt5kdKcS6l33s").build()
 
 	# on different commands - answer in Telegram
 	application.add_handler(CommandHandler("start", start))
 	application.add_handler(CommandHandler("help", help_command))
 	application.add_handler(CommandHandler("repo", repo_command))
+	application.add_handler(CommandHandler("hoops", hoops_command))
 
 	application.add_handler(MessageHandler(filters.Dice.DICE, play_dice))
 
